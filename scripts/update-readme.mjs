@@ -58,7 +58,7 @@ function fullList(posts) {
     '',
     '| 日期 | 文章 | 标签 | 阅读 |',
     '| --- | --- | --- | --- |',
-    ...list.map(post => `| ${nowrapDate(post.date)} | [${escapeCell(post.title)}](${post.url}) | ${post.tags.join(' · ')} | ${post.readingMinutes}&nbsp;分钟 |`),
+    ...list.map(post => `| ${nowrapDate(post.date)} | [${escapeCell(post.title)}](${post.url}) | ${post.tags.join(' · ')} | ${post.readingMinutes}&nbsp;min |`),
   ].join('\n')).join('\n\n')
 }
 
