@@ -1,0 +1,14 @@
+node_modules/
+docs/.vitepress/dist/
+docs/.vitepress/cache/
+.wrangler/
+.claude/
+
+# 由 scripts/import-articles.mjs 生成
+docs/posts/*/
+!docs/posts/index.md
+docs/public/media/
+docs/public/_redirects
+
+# 公众号原始导出页，构建不使用，含平台内部字段
+content/articles/**/article.html

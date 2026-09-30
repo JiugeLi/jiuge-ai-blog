@@ -1,0 +1,30 @@
+{
+  "name": "jiuge-ai-blog",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "import": "node scripts/import-articles.mjs",
+    "predev": "npm run import",
+    "dev": "vitepress dev docs",
+    "prebuild": "npm run import",
+    "build": "vitepress build docs",
+    "preview": "vitepress preview docs",
+    "cf:preview": "wrangler pages dev docs/.vitepress/dist",
+    "cf:deploy": "wrangler pages deploy docs/.vitepress/dist --project-name jiuge-ai-blog --branch main",
+    "typecheck": "vue-tsc -p ."
+  },
+  "dependencies": {
+    "cheerio": "^1.2.0",
+    "gray-matter": "^4.0.3",
+    "markdown-it": "^14.3.0"
+  },
+  "devDependencies": {
+    "@types/node": "^26.6.3",
+    "feed": "^6.0.0",
+    "markdown-it-cjk-friendly": "^3.0.0",
+    "typescript": "^6.0.3",
+    "vitepress": "^1.6.4",
+    "vue-tsc": "^3.3.11",
+    "wrangler": "^4.110.0"
+  }
+}
