@@ -9,7 +9,7 @@ const postsDir = resolve(projectRoot, 'docs', 'posts')
 const readmePath = resolve(projectRoot, 'README.md')
 const siteUrl = 'https://jiuge.ai'
 
-// 精选文章（按 slug），展示为带封面的卡片
+// 精选文章（按 slug）
 const featuredSlugs = [
   'harness-engineering',
   'what-is-an-ai-agent',
@@ -35,19 +35,16 @@ async function collectPosts(dir) {
 
 const escapeCell = text => String(text).replace(/\|/g, '\\|').replace(/\s+/g, ' ').trim()
 
-function featuredTable(posts) {
-  const featured = featuredSlugs.map(slug => posts.find(post => post.slug === slug)).filter(Boolean)
-  const cell = post => [
-    `<a href="${post.url}"><img src="${siteUrl}${post.cover}" alt="${escapeCell(post.title)}" width="260"></a><br>`,
-    `<a href="${post.url}"><b>${post.title}</b></a><br>`,
-    `<sub>${post.date} · ${post.readingMinutes} 分钟阅读</sub>`,
-  ].join('')
-  const rows = []
-  for (let i = 0; i < featured.length; i += 3) {
-    rows.push(`<tr>\n${featured.slice(i, i + 3).map(post => `<td width="33%" valign="top">${cell(post)}</td>`).join('\n')}\n</tr>`)
-  }
-  return `<table>\n${rows.join('\n')}\n</table>`
+function featuredList(posts) {
+  return featuredSlugs
+    .map(slug => posts.find(post => post.slug === slug))
+    .filter(Boolean)
+    .map(post => `- **[${post.title}](${post.url})**<br>\n  <sub>${post.date} · ${post.readingMinutes} 分钟阅读</sub>`)
+    .join('\n')
 }
+
+// 表格中日期与阅读时长不折行：不断行连字符 U+2011 与不断行空格
+const nowrapDate = date => date.slice(5).replace('-', '‑')
 
 function fullList(posts) {
   const byYear = new Map()
@@ -61,7 +58,7 @@ function fullList(posts) {
     '',
     '| 日期 | 文章 | 标签 | 阅读 |',
     '| --- | --- | --- | --- |',
-    ...list.map(post => `| ${post.date.slice(5)} | [${escapeCell(post.title)}](${post.url}) | ${post.tags.join(' · ')} | ${post.readingMinutes} 分钟 |`),
+    ...list.map(post => `| ${nowrapDate(post.date)} | [${escapeCell(post.title)}](${post.url}) | ${post.tags.join(' · ')} | ${post.readingMinutes}&nbsp;分钟 |`),
   ].join('\n')).join('\n\n')
 }
 
@@ -74,7 +71,7 @@ const generated = [
   '',
   '## ⭐ 精选文章',
   '',
-  featuredTable(posts),
+  featuredList(posts),
   '',
   '## 📚 全部文章',
   '',
