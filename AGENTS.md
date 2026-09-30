@@ -8,5 +8,6 @@
 - The site is VitePress (`docs/`), statically built and deployed to Cloudflare Pages. No D1, R2, or Pages Functions are used.
 - Local search runs in the browser (MiniSearch). Its `tokenize` function in `docs/.vitepress/config.mts` is serialized to the client as source text, so it must not reference outer variables.
 - Each post keeps a leading `# title` so local search indexes the whole article; the h1 is hidden by CSS and the visible title comes from `PostHeader.vue`.
+- `scripts/update-readme.mjs` regenerates the featured posts and full article list in README.md between `<!-- POSTS:START -->` and `<!-- POSTS:END -->`; never edit that block by hand. README screenshots live in `.github/assets/`.
 - Deployment order: `npm run build` (runs import automatically) → `npm run cf:deploy`.
 - Production verification must cover the homepage, the archive `/posts/`, 50 article pages, at least one ASCII and one Chinese `/media/` image key, `/feed.xml`, `/sitemap.xml`, and a Chinese query in the local search box.

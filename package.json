@@ -6,12 +6,13 @@
     "import": "node scripts/import-articles.mjs",
     "predev": "npm run import",
     "dev": "vitepress dev docs",
-    "prebuild": "npm run import",
+    "prebuild": "npm run import && npm run readme",
     "build": "vitepress build docs",
     "preview": "vitepress preview docs",
     "cf:preview": "wrangler pages dev docs/.vitepress/dist",
     "cf:deploy": "wrangler pages deploy docs/.vitepress/dist --project-name jiuge-ai-blog --branch main",
-    "typecheck": "vue-tsc -p ."
+    "typecheck": "vue-tsc -p .",
+    "readme": "node scripts/update-readme.mjs"
   },
   "dependencies": {
     "cheerio": "^1.2.0",
