@@ -2,7 +2,7 @@
 title: "文章索引"
 slug: "article-index"
 author: "九歌999"
-digest: "第九生活研究所文章索引"
+digest: "「第九生活研究所」公众号文章索引：Python 编程、效率方法、电子商务与生活感想四个系列的文章导航。"
 article_id: "hqGm86U3OG8yWVP3kOp1KndyPNG5sBEWDnJHYXKfo5eovGRh7HNuqrQm66yj66av"
 publish_time: "2021-01-02"
 update_time: "2021-01-02"

@@ -1,4 +1,5 @@
-// 内容唯一来源：content/articles（WPS 图文仓库副本）+ content/harness → docs/posts/<slug>.md
+// 内容唯一来源：content/articles（WPS 图文仓库副本）+ content/harness → docs/posts/<年>/<月>/<日>/<slug>/index.md
+// 同时生成标签聚合页 docs/tags/<slug>/index.md 与旧链接跳转 docs/public/_redirects。
 // 图片复制到 docs/public/media/<folder>/assets/<file>，保持线上 /media/<key> URL 不变。
 import { readFile, readdir, writeFile, mkdir, rm, cp } from 'node:fs/promises'
 import { existsSync } from 'node:fs'
@@ -6,10 +7,12 @@ import { basename, dirname, join, resolve } from 'node:path'
 import matter from 'gray-matter'
 import MarkdownIt from 'markdown-it'
 import * as cheerio from 'cheerio'
+import { tags as tagList, tagByName } from '../docs/.vitepress/theme/tags.ts'
 
 const projectRoot = resolve(import.meta.dirname, '..')
 const contentRoot = resolve(projectRoot, 'content')
 const postsDir = resolve(projectRoot, 'docs', 'posts')
+const tagsDir = resolve(projectRoot, 'docs', 'tags')
 const mediaDir = resolve(projectRoot, 'docs', 'public', 'media')
 const harnessArticle = resolve(contentRoot, 'harness', 'harness-engineering-wechat.md')
 const md = new MarkdownIt({ html: true, linkify: false, typographer: true })
@@ -24,8 +27,10 @@ function slugify(input) {
     .slice(0, 80)
 }
 
-function plainText(markdown) {
+function plainText(markdown, { prose = false } = {}) {
   const $ = cheerio.load(md.render(markdown))
+  // 摘要只取正文段落，跳过代码块、表格和标题
+  if (prose) $('pre, code, table, h1, h2, h3, h4').remove()
   return $('body').text().replace(/\s+/g, ' ').trim()
 }
 
@@ -74,6 +79,39 @@ function stripTitle(markdown) {
   return markdown.replace(/^\s*#\s+.+\n/, '')
 }
 
+// 正文开头的套话：署名、问候、自我介绍、图片说明
+const boilerplate = [
+  /^[文图]\s*\/\s*\S+\s*/,
+  /^(?:大家好|哈喽|hello)[^。！!？?～~]*[。！!？?～~]\s*/i,
+  /^[^。！!？?～~]*我(?:就)?是九歌[^。！!？?～~]*[。！!？?～~]\s*/,
+  /^图片展示[^。]*。\s*/,
+  /^一[个名][^。！!？?]{0,20}(?:产品经理|空想家|实践者|践行者)[。！!]\s*/,
+  /^目前致力于[^。！!？?]*[。！!？?]\s*/,
+]
+
+// 公众号/飞书导出的 digest 常是"标题 + 问候 + 正文开头"硬截断的 100 字，此时改从正文提炼摘要
+function describe(digest, title, text, max = 120) {
+  const normalize = value => value.replace(/[^\p{Letter}\p{Number}]/gu, '').toLowerCase()
+  const isAuto = !digest || digest.length >= 95 || normalize(digest).startsWith(normalize(title).slice(0, 6))
+  let summary = (isAuto ? text : digest).trim()
+  for (let changed = true; changed;) {
+    changed = false
+    for (const pattern of boilerplate) {
+      const next = summary.replace(pattern, '')
+      if (next !== summary) [summary, changed] = [next.trim(), true]
+    }
+  }
+  if (!isAuto) return summary
+  // 按句子累积到 50 字以上，且不超过 max
+  let result = ''
+  for (const sentence of summary.match(/[^。！？!?]+[。！？!?]?/g) || []) {
+    if (result && (result + sentence).length > max) break
+    result += sentence.trim()
+    if (result.length >= 50) break
+  }
+  return result.length > max ? `${result.slice(0, max - 1)}…` : result
+}
+
 async function importLibraryPost(entry) {
   const path = join(contentRoot, entry.markdownPath)
   const parsed = matter(await readFile(path, 'utf8'))
@@ -90,8 +128,9 @@ async function importLibraryPost(entry) {
     frontmatter: {
       title,
       date: parsed.data.publish_time || new Date((entry.publishTime || 0) * 1000).toISOString().slice(0, 10),
+      updated: parsed.data.update_time && parsed.data.update_time > parsed.data.publish_time ? parsed.data.update_time : '',
       author: parsed.data.author || entry.author || '九歌',
-      description: parsed.data.digest || text.slice(0, 110),
+      description: describe(parsed.data.digest, title, plainText(content, { prose: true })),
       tags: tagsFor(`${title} ${text}`),
       cover,
       readingMinutes: Math.max(1, Math.ceil(text.length / 500)),
@@ -114,6 +153,7 @@ async function importHarnessPost() {
     frontmatter: {
       title,
       date: '2026-07-11',
+      updated: '',
       author: '九歌',
       description: '模型越来越强，AI 编程为什么仍会翻车？答案可能藏在 Harness 工程里。',
       tags: ['AI', '智能体', '编程'],
@@ -138,6 +178,10 @@ for (const post of posts) {
   post.path = `${post.frontmatter.date.replaceAll('-', '/')}/${post.slug}`
 }
 if (new Set(posts.map(post => post.path)).size !== posts.length) throw new Error('存在重复的文章路径')
+for (const post of posts) {
+  const unknown = post.frontmatter.tags.filter(tag => !tagByName(tag))
+  if (unknown.length) throw new Error(`标签 ${unknown.join('、')} 未在 docs/.vitepress/theme/tags.ts 中登记`)
+}
 
 // posts/index.md 是手写的归档页，其余目录均由本脚本生成
 await mkdir(postsDir, { recursive: true })
@@ -154,12 +198,26 @@ for (const [index, post] of posts.entries()) {
     prev: navLink(posts[index - 1]),
     next: navLink(posts[index + 1]),
   }).filter(([, value]) => value !== ''))
-  // 保留 h1：本地搜索按标题分段建索引，首个标题之前的正文不会被收录。页面上由 PostHeader 显示标题，该 h1 用 CSS 隐藏。
-  // 固定锚点 #top，避免搜索结果链接带上中文标题锚点
-  const body = `\n# ${post.frontmatter.title} {#top}\n\n${post.body.trim()}\n`
+  // 标题由 PostHeader 渲染为页面唯一的 h1；本地搜索在建索引时补上标题（见 config.mts 的 _render）
+  const body = `\n${post.body.trim()}\n`
   await mkdir(join(postsDir, post.path), { recursive: true })
   await writeFile(join(postsDir, post.path, 'index.md'), matter.stringify(body, data), 'utf8')
 }
+
+// 标签聚合页：/tags/<slug>/，只为有文章的标签生成
+await rm(tagsDir, { recursive: true, force: true })
+let tagPages = 0
+for (const tag of tagList) {
+  const count = posts.filter(post => post.frontmatter.tags.includes(tag.name)).length
+  if (!count) continue
+  const data = { layout: 'page', title: `${tag.name}相关文章`, description: `${tag.description}共 ${count} 篇。`, tag: tag.name }
+  await mkdir(join(tagsDir, tag.slug), { recursive: true })
+  await writeFile(join(tagsDir, tag.slug, 'index.md'), matter.stringify('\n<TagPage />\n', data), 'utf8')
+  tagPages++
+}
+await writeFile(join(tagsDir, 'index.md'), matter.stringify('\n<TagPage />\n', {
+  layout: 'page', title: '全部标签', description: '按主题浏览九歌 AI 实验室的全部文章：AI、智能体、AI 编程、电商、职场与个人成长。',
+}), 'utf8')
 
 // 旧链接 /posts/<旧 slug>(/) → 新链接，301 永久跳转
 const redirects = posts.flatMap((post) => {
@@ -174,4 +232,4 @@ for (const { key, source } of mediaFiles) {
   await cp(source, join(mediaDir, key))
 }
 
-console.log(`Imported ${posts.length} posts and ${mediaFiles.length} media files.`)
+console.log(`Imported ${posts.length} posts, ${tagPages} tag pages and ${mediaFiles.length} media files.`)

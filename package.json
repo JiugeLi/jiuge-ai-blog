@@ -12,7 +12,8 @@
     "cf:preview": "wrangler pages dev docs/.vitepress/dist",
     "cf:deploy": "wrangler pages deploy docs/.vitepress/dist --project-name jiuge-ai-blog --branch main",
     "typecheck": "vue-tsc -p .",
-    "readme": "node scripts/update-readme.mjs"
+    "readme": "node scripts/update-readme.mjs",
+    "seo:audit": "node scripts/seo-audit.mjs"
   },
   "dependencies": {
     "cheerio": "^1.2.0",
@@ -22,7 +23,9 @@
   "devDependencies": {
     "@types/node": "^26.6.3",
     "feed": "^6.0.0",
+    "image-size": "^2.0.4",
     "markdown-it-cjk-friendly": "^3.0.0",
+    "sharp": "^0.35.5",
     "typescript": "^6.0.3",
     "vitepress": "^1.6.4",
     "vue-tsc": "^3.3.11",

@@ -9,6 +9,7 @@ docs/posts/*/
 !docs/posts/index.md
 docs/public/media/
 docs/public/_redirects
+docs/tags/
 
 # 公众号原始导出页，构建不使用，含平台内部字段
 content/articles/**/article.html

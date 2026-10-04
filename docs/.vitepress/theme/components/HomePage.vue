@@ -11,7 +11,12 @@ const viewMode = ref<'grid' | 'list'>('grid')
 const currentPage = ref(1)
 const pageSize = 12
 
-const fixedTags = ['全部', 'AI', '智能体', '编程', '产品', '创业', '互联网', '职场', '随笔', '成长']
+// 只展示有文章的标签，按文章数排序
+const tagCounts = posts.reduce<Record<string, number>>((acc, post) => {
+  post.tags.forEach(tag => { acc[tag] = (acc[tag] || 0) + 1 })
+  return acc
+}, {})
+const fixedTags = ['全部', ...Object.keys(tagCounts).sort((a, b) => tagCounts[b] - tagCounts[a])]
 
 const researchTracks = [
   {
@@ -39,7 +44,7 @@ const researchTracks = [
     icon: 'product',
     title: '产品与应用',
     sub: '产品 · 工具 · 创业',
-    filterTag: '产品',
+    filterTag: '商业',
     colorClass: 'orange'
   },
   {
@@ -179,12 +184,14 @@ onMounted(() => {
         <!-- Center: Interactive AI System Topology Orbit with Generated 3D Asset -->
         <div class="hero-centerpiece" aria-label="AI系统架构拓扑图">
             <img 
-              src="/hero-orbit-topology.png" 
+              src="/hero-orbit-topology.webp"
               alt="九歌 AI 实验室架构拓扑图" 
               class="hero-ai-art"
               width="460"
               height="306"
               loading="eager"
+              fetchpriority="high"
+              decoding="async"
             />
         </div>
 

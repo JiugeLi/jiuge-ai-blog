@@ -2,6 +2,7 @@
 import DefaultTheme from 'vitepress/theme'
 import PostHeader from './components/PostHeader.vue'
 import PostSource from './components/PostSource.vue'
+import RelatedPosts from './components/RelatedPosts.vue'
 import SiteFooter from './components/SiteFooter.vue'
 
 const { Layout } = DefaultTheme
@@ -14,6 +15,9 @@ const { Layout } = DefaultTheme
     </template>
     <template #doc-footer-before>
       <PostSource />
+    </template>
+    <template #doc-after>
+      <RelatedPosts />
     </template>
     <template #layout-bottom>
       <SiteFooter />

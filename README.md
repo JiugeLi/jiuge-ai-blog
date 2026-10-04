@@ -41,7 +41,9 @@
 - **中文全文搜索**：基于 MiniSearch + `Intl.Segmenter` 中文分词，在浏览器本地完成检索，覆盖全部正文
 - **可读的文章链接**：`/posts/年/月/日/英文短名/`，分享时不会变成一长串 `%E5%A6%82…` 编码
 - **旧链接永不失效**：旧版网站的文章地址全部 301 永久跳转到新地址
-- **SEO 与订阅**：自动生成 sitemap、RSS、canonical 与 Open Graph 分享卡片
+- **SEO 优化**：JSON-LD 结构化数据（文章、作者、面包屑）、canonical、Open Graph / Twitter 分享卡片、带 lastmod 的 sitemap、robots.txt、RSS，以及构建后的自动 SEO 自检
+- **主题聚合**：每个标签都有独立的聚合页（如 `/tags/agents/`），文章底部按标签推荐相关文章
+- **加载性能**：文章图片懒加载并带固有宽高，首屏主图使用 WebP
 - **中文排版优化**：修复 CommonMark 中 `**粗体**` 紧贴中文标点不生效的问题
 - **内容与站点分离**：文章以 Markdown 原文保存在 `content/`，站点页面由脚本生成，README 文章列表也自动同步
 
@@ -83,14 +85,17 @@ flowchart LR
 │   └── harness/                 # Harness Engineering 文章及配图
 ├── docs/                        # VitePress 站点
 │   ├── .vitepress/
-│   │   ├── config.mts           # 站点配置：搜索、SEO、RSS、Markdown 插件
+│   │   ├── config.mts           # 站点配置：搜索、sitemap、RSS、Markdown 插件
+│   │   ├── seo.ts               # SEO：meta 标签与 JSON-LD 结构化数据
 │   │   └── theme/               # 自定义主题：布局、组件、样式、文章数据加载
 │   ├── index.md                 # 首页
 │   ├── about.md                 # 关于页
 │   ├── posts/index.md           # 归档页（其余文章页由脚本生成）
-│   └── public/                  # 静态资源、_headers
+│   ├── tags/                    # 标签页（由脚本生成）
+│   └── public/                  # 静态资源、robots.txt、分享图、图标、_headers
 ├── scripts/
-│   ├── import-articles.mjs      # content → docs/posts + 图片 + 跳转规则
+│   ├── import-articles.mjs      # content → 文章页 + 标签页 + 图片 + 跳转规则
+│   ├── seo-audit.mjs            # 构建产物 SEO 自检
 │   └── update-readme.mjs        # 生成 README 中的文章列表
 └── wrangler.jsonc               # Cloudflare Pages 配置
 ```
@@ -105,6 +110,7 @@ npm run dev        # 本地开发（自动导入文章），默认 http://localh
 npm run build      # 导入文章 → 更新 README 列表 → 构建站点
 npm run preview    # 预览构建结果
 npm run typecheck  # 类型检查（含 .vue 模板）
+npm run seo:audit  # SEO 自检：title、description、h1、canonical、结构化数据、图片属性
 ```
 
 ## ✍️ 写一篇新文章
@@ -125,7 +131,7 @@ publish_time: "2026-09-30"
 正文从这里开始，图片使用相对路径：![说明](./assets/img01.png)
 ```
 
-4. 运行 `npm run dev` 预览。标签、阅读时长、封面图（正文第一张图）会自动生成
+4. 运行 `npm run dev` 预览。标签、阅读时长、封面图（正文第一张图）会自动生成；`digest` 会作为搜索结果和分享卡片的摘要，建议用一两句话认真写
 
 > 文章发布后请勿再修改 `slug` 或发布日期；如确需修改，需在导入脚本中为旧地址补充跳转。
 
@@ -133,6 +139,7 @@ publish_time: "2026-09-30"
 
 ```bash
 npm run build
+npm run seo:audit  # 自检通过后再部署
 npm run cf:deploy  # 部署到 Cloudflare Pages（需先 npx wrangler login）
 ```
 

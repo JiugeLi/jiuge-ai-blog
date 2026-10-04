@@ -2,7 +2,7 @@
 title: "MCP_SSE插件使用体验"
 slug: "mcp-sse-plugin-review"
 author: "九歌"
-digest: "MCP_SSE插件使用体验 图片展示了安装MCP_SSE插件时遇到异常信息“plugin verification has been enabled, and the plugin you want "
+digest: "在 Dify 中安装 MCP_SSE 插件遇到签名校验报错的解决记录：在 .env 中设置 FORCE_VERIFYING_SIGNATURE=false，并重启 Docker 服务。"
 publish_time: "2025-04-08"
 article_id: "Htp1djmjZo3WM7xxdFKcKnn1nTf"
 ---

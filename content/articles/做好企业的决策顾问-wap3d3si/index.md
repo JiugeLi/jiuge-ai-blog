@@ -2,7 +2,7 @@
 title: "做好企业的决策顾问"
 slug: "enterprise-decision-advisor"
 author: "九歌"
-digest: "做好企业的决策顾问 直播2：从「数据洞察」到「自主行动」:做好企业的决策顾问 图片展示了火山引擎数智平台关于Data Agent的定义。Data Agent是兼具业务问题解决能力与业务决策执行能力的数"
+digest: "火山引擎数智平台 Data Agent 直播第 2 期笔记：从「数据洞察」到「自主行动」，看智能分析 Agent 如何成为企业的决策顾问。"
 publish_time: "2025-05-22"
 article_id: "WAP3d3sIdo9ZiJxr0lIcllaFnfg"
 ---

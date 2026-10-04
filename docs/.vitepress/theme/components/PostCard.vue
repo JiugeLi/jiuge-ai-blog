@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import type { Post } from '../posts.data'
+import { tagUrl } from '../tags'
 
 const props = defineProps<{
   post: Post
@@ -36,9 +37,9 @@ const badge = computed(() => getBadge(props.post.tags))
 
     <div class="lab-card-footer">
       <div class="tags-group">
-        <span v-for="tag in post.tags.slice(0, 3)" :key="tag" class="lab-tag">
+        <a v-for="tag in post.tags.slice(0, 3)" :key="tag" :href="tagUrl(tag)" class="lab-tag">
           {{ tag }}
-        </span>
+        </a>
       </div>
       <a :href="post.url" class="card-arrow-link" :aria-label="`阅读 ${post.title}`">
         <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2">
