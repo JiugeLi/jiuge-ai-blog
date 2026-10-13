@@ -22,17 +22,27 @@ publish_time: "2026-10-13"
 
 ## 一条请求，先后经过什么
 
-**1. 客户端。** 用户在网页输入问题，浏览器把问题、登录状态和当前会话标识发给应用服务。浏览器负责展示回答，不应该直接持有模型服务的长期密钥。浏览器的网络面板还能告诉你：请求有没有发出去、发到了哪个地址、返回了什么状态码、等了多久。这些是排错的第一手信息，别只盯着页面上的“请求失败”四个字。
+### 01 · 客户端
 
-**2. 应用服务。** 这里先确认“谁在问、能看什么”，再决定要不要查知识库、调用哪个模型、回答采用什么格式。很多项目把这部分叫业务后端或编排层。它也是整条链路的总调度：负责把各处结果拼起来，最终回给浏览器。比如维修员工能查设备手册，访客却不能查内部故障记录，这个身份和权限信息不能在进入检索之后凭空消失。
+用户在网页输入问题，浏览器把问题、登录状态和当前会话标识发给应用服务。浏览器负责展示回答，不应该直接持有模型服务的长期密钥。浏览器的网络面板还能告诉你：请求有没有发出去、发到了哪个地址、返回了什么状态码、等了多久。这些是排错的第一手信息，别只盯着页面上的“请求失败”四个字。
 
-**3. 知识检索。** 如果问题需要企业内部资料，应用服务会拿问题去检索。检索服务可能先把问题转换成向量，再从索引中找相关片段，也可能同时使用关键词检索。它返回的是**候选资料及其来源**，不是最终答案。片段至少应能追到原文件、版本和访问范围。没有找到资料、找错资料、拿到了用户无权查看的资料，都是这一段要检查的问题。
+### 02 · 应用服务
 
-**4. 模型网关。** 应用服务把问题和允许使用的资料组成请求，交给网关。网关通常负责鉴权、路由、限流、超时与调用记录。应用里填的模型名，可能只是网关中的一个逻辑名称，实际被转发到哪台机器、哪个模型版本，要看当时的路由配置和调用日志。网关回答的是“这个请求能不能进、该送到哪个模型服务”，不负责保证模型说得对。
+这里先确认“谁在问、能看什么”，再决定要不要查知识库、调用哪个模型、回答采用什么格式。很多项目把这部分叫业务后端或编排层。它也是整条链路的总调度：负责把各处结果拼起来，最终回给浏览器。比如维修员工能查设备手册，访客却不能查内部故障记录，这个身份和权限信息不能在进入检索之后凭空消失。
 
-**5. 推理服务。** 这一步才真正加载模型并生成文本。推理服务可能跑在本地 CPU、GPU 服务器或云端。它关心模型能否加载、显存是否够、生成速度如何、并发时会不会排队。即使同一个模型，请求的输入长度、输出长度和同时在线的人数变了，耗时也会变。模型生成的文本沿原路返回，应用服务再检查、整理并展示给用户。
+### 03 · 知识检索
 
-把它写成一句话就是：**应用负责决定怎么做，检索负责找依据，网关负责把请求送对地方，推理服务负责生成文字。** 谁都不能替其他层证明结果正确。
+如果问题需要企业内部资料，应用服务会拿问题去检索。检索服务可能先把问题转换成向量，再从索引中找相关片段，也可能同时使用关键词检索。它返回的是**候选资料及其来源**，不是最终答案。片段至少应能追到原文件、版本和访问范围。没有找到资料、找错资料、拿到了用户无权查看的资料，都是这一段要检查的问题。
+
+### 04 · 模型网关
+
+应用服务把问题和允许使用的资料组成请求，交给网关。网关通常负责鉴权、路由、限流、超时与调用记录。应用里填的模型名，可能只是网关中的一个逻辑名称，实际被转发到哪台机器、哪个模型版本，要看当时的路由配置和调用日志。网关回答的是“这个请求能不能进、该送到哪个模型服务”，不负责保证模型说得对。
+
+### 05 · 推理服务
+
+这一步才真正加载模型并生成文本。推理服务可能跑在本地 CPU、GPU 服务器或云端。它关心模型能否加载、显存是否够、生成速度如何、并发时会不会排队。即使同一个模型，请求的输入长度、输出长度和同时在线的人数变了，耗时也会变。模型生成的文本沿原路返回，应用服务再检查、整理并展示给用户。
+
+> **一句话记住：** 应用决定怎么做，检索找依据，网关把请求送对地方，推理服务生成文字。谁都不能替其他层证明结果正确。
 
 ### 跟着一次请求走一遍
 
@@ -42,12 +52,13 @@ publish_time: "2026-10-13"
 
 一个便于对照日志的简化记录可以长这样。字段和值都是示意，不对应真实平台接口：
 
-```text
-入口：request_id=demo-042  user_role=maintenance  question="A17 设备连续停机，先检查什么？"
-检索：request_id=demo-042  hits=2  sources=[手册v3/第4节, 工单示例/17]
-网关：request_id=demo-042  route=repair-model  upstream_status=200
-返回：request_id=demo-042  citations=[手册v3/第4节]  app_status=200
-```
+<div class="fde-trace" aria-label="同一次请求的示意记录">
+  <div class="fde-trace__head"><strong>示意请求记录</strong><code>request_id=demo-042</code></div>
+  <div class="fde-trace__row"><span class="fde-trace__step">入口</span><span><code>user_role=maintenance</code><br>问题：A17 设备连续停机，先检查什么？</span></div>
+  <div class="fde-trace__row"><span class="fde-trace__step">检索</span><span><code>hits=2</code><br>来源：手册 v3 / 第 4 节、工单示例 / 17</span></div>
+  <div class="fde-trace__row"><span class="fde-trace__step">网关</span><span><code>route=repair-model</code><br><code>upstream_status=200</code></span></div>
+  <div class="fde-trace__row"><span class="fde-trace__step">返回</span><span>引用：手册 v3 / 第 4 节<br><code>app_status=200</code></span></div>
+</div>
 
 这四行解决的问题很实际：前端说“答错了”，你可以先确认检索有没有找对文件，再确认正确片段有没有被送进模型，最后看应用展示的引用是不是同一份资料。
 
@@ -81,13 +92,14 @@ publish_time: "2026-10-13"
 
 下面是**示意日志，不是某个真实系统的实测结果**：
 
-```text
-request_id=demo-042 app       auth=ok          elapsed_ms=12
-request_id=demo-042 retrieval hits=0           elapsed_ms=34
-request_id=demo-042 gateway   route=model-small elapsed_ms=4
-request_id=demo-042 inference status=200        elapsed_ms=930
-request_id=demo-042 app       status=200         elapsed_ms=995
-```
+<div class="fde-trace" aria-label="沿请求链路逐层查看耗时的示意日志">
+  <div class="fde-trace__head"><strong>逐层耗时</strong><code>request_id=demo-042</code></div>
+  <div class="fde-trace__row"><span class="fde-trace__step">应用鉴权</span><span><code>auth=ok</code></span><strong class="fde-trace__time"><code>elapsed_ms=12</code></strong></div>
+  <div class="fde-trace__row"><span class="fde-trace__step">知识检索</span><span><code>hits=0</code></span><strong class="fde-trace__time"><code>elapsed_ms=34</code></strong></div>
+  <div class="fde-trace__row"><span class="fde-trace__step">模型网关</span><span><code>route=model-small</code></span><strong class="fde-trace__time"><code>elapsed_ms=4</code></strong></div>
+  <div class="fde-trace__row"><span class="fde-trace__step">推理服务</span><span><code>status=200</code></span><strong class="fde-trace__time"><code>elapsed_ms=930</code></strong></div>
+  <div class="fde-trace__row"><span class="fde-trace__step">应用返回</span><span><code>status=200</code></span><strong class="fde-trace__time"><code>elapsed_ms=995</code>（总耗时）</strong></div>
+</div>
 
 这次请求没有接口错误，但检索命中数为零。如果用户问的是企业内部规程，下一步应先看资料是否入库、索引是否更新、权限过滤是否过严，而不是立刻换模型。日志里的耗时也有用：推理服务用掉了大部分时间；如果页面却是在收到模型结果后又卡了很久，还得继续查应用返回和浏览器渲染。
 
@@ -95,13 +107,13 @@ request_id=demo-042 app       status=200         elapsed_ms=995
 
 可以按这个顺序看：
 
-| 看到的现象 | 优先检查 | 不要直接下的结论 |
-| --- | --- | --- |
-| 浏览器报 401 或 403 | 登录状态、应用服务鉴权、资源权限 | “模型拒绝回答” |
-| 很快返回 429 | 应用或网关的限流、配额、并发设置 | “模型算力不够” |
-| 一直转圈，最终超时 | 同一个请求编号在各层的耗时和最后一条日志 | “肯定是模型慢” |
-| 回答流畅但引用不对 | 检索命中、资料版本、引用组装 | “模型 API 有故障” |
-| 偶发 5xx | 报错发生在哪一层、进程重启、资源用量和上游错误 | “重试成功就算修好” |
+<div class="fde-check-list" aria-label="常见现象与排查入口">
+  <div class="fde-check"><strong>浏览器报 401 或 403</strong><span>先查登录状态、应用鉴权、资源权限</span><small>别急着说“模型拒绝回答”</small></div>
+  <div class="fde-check"><strong>很快返回 429</strong><span>先查应用或网关的限流、配额、并发设置</span><small>别急着说“模型算力不够”</small></div>
+  <div class="fde-check"><strong>一直转圈，最终超时</strong><span>按请求编号比对各层耗时和最后一条日志</span><small>别急着说“肯定是模型慢”</small></div>
+  <div class="fde-check"><strong>回答流畅，但引用不对</strong><span>先查检索命中、资料版本、引用组装</span><small>别急着说“模型 API 有故障”</small></div>
+  <div class="fde-check"><strong>偶发 5xx</strong><span>先查报错层、进程重启、资源用量和上游错误</span><small>别把“重试成功”当作修好</small></div>
+</div>
 
 这些只是排查入口，不是错误码与原因的一一对应表。比如 429 可以由应用、网关或上游服务返回；要结合响应头、日志和请求编号判断。
 
@@ -121,11 +133,11 @@ request_id=demo-042 app       status=200         elapsed_ms=995
 
 新手最容易被一个绿色的 200 迷惑。实际上至少有三层结果：
 
-| 要验证什么 | 一个最小检查 | 200 能否证明 |
-| --- | --- | --- |
-| 服务可调用 | 请求到达上游，正常返回或正常结束流 | 只能证明接口层面的成功 |
-| 资料可用 | 命中正确版本，来源可追溯，无权账号查不到 | 不能 |
-| 回答可用 | 关键结论与资料一致，引用对应原文，无依据时不乱答 | 不能 |
+<div class="fde-check-list fde-check-list--three" aria-label="接口成功与答案可用的三层验证">
+  <div class="fde-check"><strong>01 · 服务可调用</strong><span>请求到达上游，正常返回或结束流</span><small>200 只能证明接口层面成功</small></div>
+  <div class="fde-check"><strong>02 · 资料可用</strong><span>命中正确版本、来源可追溯；无权账号查不到</span><small>200 不能证明</small></div>
+  <div class="fde-check"><strong>03 · 回答可用</strong><span>结论与资料一致，引用对应原文；无依据时不乱答</span><small>200 不能证明</small></div>
+</div>
 
 有时系统返回的状态码是 200，但正文写着“上游模型不可用”，这是应用做了错误兜底；也可能请求因为超时返回 504，而推理服务后来完成了生成。处理这类情况，要把**用户看到的结果、应用的记录和下游的记录**放在一起看，不能只截一张响应截图。
 

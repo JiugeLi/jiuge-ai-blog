@@ -717,6 +717,141 @@ a.lab-tag:hover {
   border: 1px solid var(--border-light);
 }
 
+/* FDE 小白书：长日志按字段和耗时阅读，窄屏不出现横向代码滚动。 */
+.vp-doc .fde-trace {
+  overflow: hidden;
+  margin: 20px 0 24px;
+  border: 1px solid var(--border-card);
+  border-radius: 14px;
+  background: var(--bg-surface);
+  box-shadow: 0 10px 28px -24px rgba(13, 48, 75, .6);
+}
+
+.vp-doc .fde-trace__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px 16px;
+  padding: 13px 18px;
+  color: #fff;
+  background: #173b59;
+}
+
+.vp-doc .fde-trace__head strong {
+  font-size: .94rem;
+}
+
+.vp-doc .fde-trace__head code {
+  color: #d7f3ff;
+  background: rgba(255, 255, 255, .12);
+}
+
+.vp-doc .fde-trace__row {
+  display: grid;
+  grid-template-columns: 94px minmax(0, 1fr) auto;
+  align-items: start;
+  gap: 10px 16px;
+  padding: 13px 18px;
+  font-size: .91rem;
+  line-height: 1.65;
+}
+
+.vp-doc .fde-trace__row + .fde-trace__row {
+  border-top: 1px solid var(--border-card);
+}
+
+.vp-doc .fde-trace__row > span:nth-child(2):last-child {
+  grid-column: 2 / -1;
+}
+
+.vp-doc .fde-trace__step {
+  color: #155681;
+  font-weight: 750;
+}
+
+.vp-doc .fde-trace code {
+  font-size: .85em;
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+
+.vp-doc .fde-trace__time {
+  color: #173b59;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.vp-doc .fde-check-list {
+  display: grid;
+  gap: 10px;
+  margin: 18px 0 24px;
+}
+
+.vp-doc .fde-check {
+  display: grid;
+  grid-template-columns: minmax(150px, .45fr) minmax(0, 1fr);
+  gap: 3px 14px;
+  padding: 14px 16px;
+  border: 1px solid var(--border-card);
+  border-left: 3px solid #2382b5;
+  border-radius: 8px;
+  background: var(--bg-surface);
+  font-size: .9rem;
+  line-height: 1.65;
+}
+
+.vp-doc .fde-check strong {
+  color: var(--text-main);
+}
+
+.vp-doc .fde-check small {
+  grid-column: 2;
+  color: var(--text-muted);
+  font-size: .82rem;
+}
+
+.vp-doc .fde-check-list--three {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.vp-doc .fde-check-list--three .fde-check {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+@media (max-width: 720px) {
+  .vp-doc .fde-trace__row {
+    grid-template-columns: 76px minmax(0, 1fr);
+    gap: 5px 10px;
+    padding: 12px 14px;
+  }
+
+  .vp-doc .fde-trace__time {
+    grid-column: 2;
+  }
+
+  .vp-doc .fde-check,
+  .vp-doc .fde-check-list--three {
+    display: block;
+  }
+
+  .vp-doc .fde-check-list--three .fde-check {
+    display: flex;
+  }
+
+  .vp-doc .fde-check + .fde-check {
+    margin-top: 10px;
+  }
+
+  .vp-doc .fde-check span,
+  .vp-doc .fde-check small {
+    display: block;
+    margin-top: 4px;
+  }
+}
+
 /* 相关文章 */
 .related-posts {
   margin-top: 40px;
