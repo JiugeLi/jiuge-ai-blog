@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" role="img" aria-labelledby="title desc">
+  <title id="title">FDE 在业务需求、AI 能力和生产系统之间的工作位置</title>
+  <desc id="desc">FDE 将业务问题、模型和应用能力、企业现有系统连接起来，形成能验证、能运行、能维护的交付结果；并不代表一个人独自开发所有组件。</desc>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="10" markerHeight="10" orient="auto"><path d="M0 0L10 5L0 10Z" fill="#3c7285"/></marker>
+    <style>
+      .bg{fill:#f5f8fa}.title{font:700 42px 'Microsoft YaHei','Noto Sans CJK SC',sans-serif;fill:#152f3d}.sub{font:23px 'Microsoft YaHei','Noto Sans CJK SC',sans-serif;fill:#526b77}.head{font:700 29px 'Microsoft YaHei','Noto Sans CJK SC',sans-serif;fill:#183544}.body{font:22px 'Microsoft YaHei','Noto Sans CJK SC',sans-serif;fill:#415d69}.mini{font:20px 'Microsoft YaHei','Noto Sans CJK SC',sans-serif;fill:#4e6874}.badge{font:700 22px 'Microsoft YaHei','Noto Sans CJK SC',sans-serif;fill:#fff}.line{stroke:#3c7285;stroke-width:5;fill:none;marker-end:url(#arrow)}
+    </style>
+  </defs>
+  <rect class="bg" width="1600" height="900"/>
+  <text class="title" x="74" y="82">FDE 的位置：把能力接进真实业务</text>
+  <text class="sub" x="74" y="126">以企业维修助手为例 · 三类输入 → 工程实施 → 可交付结果</text>
+
+  <rect x="70" y="198" width="390" height="284" rx="25" fill="#e3f3f6" stroke="#91c7d1" stroke-width="2"/>
+  <text class="head" x="103" y="252">业务问题</text>
+  <text class="body" x="103" y="309">维修人员要查故障</text>
+  <text class="body" x="103" y="351">资料有版本和权限</text>
+  <text class="body" x="103" y="393">错误建议有现场风险</text>
+  <text class="mini" x="103" y="447">问题：怎样才算真的可用？</text>
+
+  <rect x="605" y="198" width="390" height="284" rx="25" fill="#ede9f8" stroke="#baaede" stroke-width="2"/>
+  <text class="head" x="638" y="252">AI 能力</text>
+  <text class="body" x="638" y="309">模型推理服务</text>
+  <text class="body" x="638" y="351">检索与知识库</text>
+  <text class="body" x="638" y="393">Agent 与工具接口</text>
+  <text class="mini" x="638" y="447">问题：能否可靠调用和验证？</text>
+
+  <rect x="1140" y="198" width="390" height="284" rx="25" fill="#fff1dc" stroke="#e9c58e" stroke-width="2"/>
+  <text class="head" x="1173" y="252">生产系统</text>
+  <text class="body" x="1173" y="309">登录、权限、业务接口</text>
+  <text class="body" x="1173" y="351">网关、日志、监控</text>
+  <text class="body" x="1173" y="393">发布、故障恢复、交接</text>
+  <text class="mini" x="1173" y="447">问题：出事时谁能定位和修？</text>
+
+  <path class="line" d="M460 341H588"/><path class="line" d="M995 341H1123"/>
+
+  <rect x="245" y="555" width="1110" height="125" rx="28" fill="#e5f5ec" stroke="#9ecdb0" stroke-width="2"/>
+  <circle cx="319" cy="617" r="34" fill="#287f58"/><text class="badge" x="292" y="625">FDE</text>
+  <text class="head" x="380" y="606">贯通需求、集成、验证、上线和交接</text>
+  <text class="body" x="380" y="648">与模型、应用、平台和业务团队协作，对端到端结果负责</text>
+  <path class="line" d="M265 486L438 541"/>
+  <path class="line" d="M800 486V541"/>
+  <path class="line" d="M1335 486L1162 541"/>
+
+  <rect x="359" y="743" width="882" height="79" rx="39" fill="#fff" stroke="#b8ccd5" stroke-width="2"/>
+  <text class="head" x="407" y="791">交付结果：能使用 · 能验证 · 能定位 · 能维护</text>
+  <path class="line" d="M800 683V728"/>
+  <text class="mini" x="75" y="861">说明：这张图表示责任连接，不表示 FDE 一个人开发全部组件。</text>
+</svg>

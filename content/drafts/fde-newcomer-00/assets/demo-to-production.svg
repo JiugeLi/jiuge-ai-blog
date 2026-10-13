@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" role="img" aria-labelledby="title desc">
+  <title id="title">AI 演示走向生产交付的六个检查点</title>
+  <desc id="desc">从单人演示走向企业使用，需要分别验证身份权限、数据版本、服务接入、效果验证、故障处理、交接回退六个方面；每项都有可观察的证据。</desc>
+  <defs>
+    <style>
+      .bg{fill:#f5f8fa}.title{font:700 42px 'Microsoft YaHei','Noto Sans CJK SC',sans-serif;fill:#152f3d}.sub{font:23px 'Microsoft YaHei','Noto Sans CJK SC',sans-serif;fill:#526b77}.head{font:700 28px 'Microsoft YaHei','Noto Sans CJK SC',sans-serif;fill:#183544}.body{font:22px 'Microsoft YaHei','Noto Sans CJK SC',sans-serif;fill:#415d69}.small{font:19px 'Microsoft YaHei','Noto Sans CJK SC',sans-serif;fill:#58717c}.num{font:700 22px 'Microsoft YaHei','Noto Sans CJK SC',sans-serif;fill:#fff}
+    </style>
+  </defs>
+  <rect class="bg" width="1600" height="900"/>
+  <text class="title" x="73" y="78">演示能跑，离交付还差哪些检查？</text>
+  <text class="sub" x="73" y="123">每一项都要留下能复查的证据，而不是只展示一次成功回答</text>
+
+  <g>
+    <rect x="70" y="190" width="455" height="247" rx="22" fill="#e4f3f6" stroke="#a5ccd4" stroke-width="2"/>
+    <circle cx="117" cy="237" r="27" fill="#177d92"/><text class="num" x="110" y="245">1</text>
+    <text class="head" x="158" y="246">身份与权限</text>
+    <text class="body" x="105" y="312">不同账号能看到什么？</text>
+    <text class="small" x="105" y="366">证据：角色 × 资源测试</text>
+    <text class="small" x="105" y="399">含无权限反例</text>
+
+    <rect x="573" y="190" width="455" height="247" rx="22" fill="#e5f5ec" stroke="#a2cfb4" stroke-width="2"/>
+    <circle cx="620" cy="237" r="27" fill="#2d8a62"/><text class="num" x="613" y="245">2</text>
+    <text class="head" x="661" y="246">数据与版本</text>
+    <text class="body" x="608" y="312">回答引用的是哪份资料？</text>
+    <text class="small" x="608" y="366">证据：原文、版本、索引读回</text>
+    <text class="small" x="608" y="399">更新后的回归结果</text>
+
+    <rect x="1076" y="190" width="455" height="247" rx="22" fill="#fff1dc" stroke="#e9c58e" stroke-width="2"/>
+    <circle cx="1123" cy="237" r="27" fill="#bb7a2e"/><text class="num" x="1116" y="245">3</text>
+    <text class="head" x="1164" y="246">服务接入</text>
+    <text class="body" x="1111" y="312">业务系统能稳定调用吗？</text>
+    <text class="small" x="1111" y="366">证据：鉴权、限流、超时</text>
+    <text class="small" x="1111" y="399">端到端调用记录</text>
+
+    <rect x="70" y="479" width="455" height="247" rx="22" fill="#ede9f8" stroke="#bdb1dd" stroke-width="2"/>
+    <circle cx="117" cy="526" r="27" fill="#7759a7"/><text class="num" x="110" y="534">4</text>
+    <text class="head" x="158" y="535">效果验证</text>
+    <text class="body" x="105" y="601">答对、拒答、引用都过关？</text>
+    <text class="small" x="105" y="655">证据：固定问题集与反例</text>
+    <text class="small" x="105" y="688">改动前后同口径比较</text>
+
+    <rect x="573" y="479" width="455" height="247" rx="22" fill="#e8f0fa" stroke="#a9c1df" stroke-width="2"/>
+    <circle cx="620" cy="526" r="27" fill="#3267a0"/><text class="num" x="613" y="534">5</text>
+    <text class="head" x="661" y="535">故障处理</text>
+    <text class="body" x="608" y="601">慢或失败时能定位吗？</text>
+    <text class="small" x="608" y="655">证据：贯穿各层的请求编号</text>
+    <text class="small" x="608" y="688">故障复现与修复复测</text>
+
+    <rect x="1076" y="479" width="455" height="247" rx="22" fill="#fceae7" stroke="#dfa9a0" stroke-width="2"/>
+    <circle cx="1123" cy="526" r="27" fill="#b66557"/><text class="num" x="1116" y="534">6</text>
+    <text class="head" x="1164" y="535">交接与回退</text>
+    <text class="body" x="1111" y="601">别人能接手、能恢复吗？</text>
+    <text class="small" x="1111" y="655">证据：版本、配置、运行手册</text>
+    <text class="small" x="1111" y="688">回退演练记录</text>
+  </g>
+
+  <rect x="268" y="785" width="1064" height="62" rx="31" fill="#fff" stroke="#b8cbd4" stroke-width="2"/>
+  <text class="head" x="377" y="825">六项检查串起来，才从“一次演示”走到“可维护的系统”</text>
+</svg>
