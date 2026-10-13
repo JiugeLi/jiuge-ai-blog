@@ -1,4 +1,4 @@
-// 内容唯一来源：content/articles（WPS 图文仓库副本）+ content/harness → docs/posts/<年>/<月>/<日>/<slug>/index.md
+// 内容来源：content/articles（WPS 图文仓库副本）+ content/harness + content/fde → docs/posts/<年>/<月>/<日>/<slug>/index.md
 // 同时生成标签聚合页 docs/tags/<slug>/index.md 与旧链接跳转 docs/public/_redirects。
 // 图片复制到 docs/public/media/<folder>/assets/<file>，保持线上 /media/<key> URL 不变。
 import { readFile, readdir, writeFile, mkdir, rm, cp } from 'node:fs/promises'
@@ -166,9 +166,39 @@ async function importHarnessPost() {
   }
 }
 
+async function importSeriesPost(relativePath, seriesName, order) {
+  const path = join(contentRoot, relativePath)
+  const parsed = matter(await readFile(path, 'utf8'))
+  const { title, slug, author, digest, publish_time: date } = parsed.data
+  if (!title || !date) throw new Error(`${relativePath} 缺少 title 或 publish_time`)
+  const content = stripTitle(parsed.content)
+  const text = plainText(content)
+  const { body, cover } = rewriteImages(content, `fde-${slug}`, file => join(dirname(path), 'assets', file))
+  return {
+    slug,
+    legacySlug: '',
+    frontmatter: {
+      title,
+      date,
+      author: author || '九歌',
+      description: describe(digest, title, plainText(content, { prose: true })),
+      tags: ['FDE', 'AI'],
+      cover,
+      readingMinutes: Math.max(1, Math.ceil(text.length / 500)),
+      sourceUrl: '',
+      articleId: `fde-${slug}`,
+      series: seriesName,
+      seriesOrder: order,
+    },
+    body,
+  }
+}
+
 const catalog = JSON.parse(await readFile(join(contentRoot, 'catalog.json'), 'utf8'))
 const posts = await Promise.all(catalog.map(importLibraryPost))
 posts.push(await importHarnessPost())
+const fdeSeries = JSON.parse(await readFile(join(contentRoot, 'fde', 'manifest.json'), 'utf8'))
+posts.push(...await Promise.all(fdeSeries.articles.map((path, index) => importSeriesPost(path, fdeSeries.name, index + 1))))
 
 // 文章 URL：/posts/<年>/<月>/<日>/<slug>/，slug 在原文 frontmatter 中指定
 for (const post of posts) {
@@ -221,6 +251,7 @@ await writeFile(join(tagsDir, 'index.md'), matter.stringify('\n<TagPage />\n', {
 
 // 旧链接 /posts/<旧 slug>(/) → 新链接，301 永久跳转
 const redirects = posts.flatMap((post) => {
+  if (!post.legacySlug) return []
   const from = `/posts/${encodeURIComponent(post.legacySlug)}`
   const to = `/posts/${post.path}/`
   return [`${from}/ ${to} 301`, `${from} ${to} 301`]

@@ -7,6 +7,7 @@ export interface TagInfo {
 }
 
 export const tags: TagInfo[] = [
+  { name: 'FDE', slug: 'fde', description: '前线部署工程师小白书：企业 AI 请求链路、部署、验证与排错。' },
   { name: 'AI', slug: 'ai', description: 'AI 与大模型：模型能力评测、本地部署、多模态应用与行业观察。' },
   { name: '智能体', slug: 'agents', description: '智能体（Agent）原理与实践：Dify、Coze、MCP、工作流编排与 Harness 工程。' },
   { name: '编程', slug: 'coding', description: 'AI 编程与开发实践：Coding Agent、Vibe Coding、数据处理与自动化脚本。' },

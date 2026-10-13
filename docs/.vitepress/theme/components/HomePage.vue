@@ -248,6 +248,20 @@ onMounted(() => {
       </div>
     </section>
 
+    <section class="fde-feature jg-container" aria-labelledby="fde-feature-title">
+      <div class="fde-feature-card">
+        <div class="fde-feature-copy">
+          <span class="fde-feature-kicker">NEW SERIES · 01—02 已发布</span>
+          <h2 id="fde-feature-title">FDE前线部署工程师小白书</h2>
+          <p>从 FDE 是什么开始，沿着一次企业 AI 请求看清应用、检索、网关与模型服务。写给刚接触部署和交付的工程师。</p>
+          <a class="fde-feature-link" href="/series/fde/">进入系列 <span aria-hidden="true">↗</span></a>
+        </div>
+        <div class="fde-feature-flow" aria-hidden="true">
+          <span>业务问题</span><b>→</b><span>系统接入</span><b>→</b><span>上线验证</span>
+        </div>
+      </div>
+    </section>
+
     <!-- Research Tracks Section -->
     <section id="tracks-section" class="tracks-section jg-container">
       <div class="section-heading">

@@ -1,0 +1,8 @@
+{
+  "name": "FDE前线部署工程师小白书",
+  "slug": "fde",
+  "articles": [
+    "fde/what-is-fde/index.md",
+    "fde/fde-request-path/index.md"
+  ]
+}

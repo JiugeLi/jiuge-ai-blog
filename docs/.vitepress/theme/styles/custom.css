@@ -43,6 +43,151 @@ body {
   padding: 0 24px;
 }
 
+/* FDE 系列：首页入口与系列目录 */
+.fde-feature {
+  margin-bottom: 52px;
+}
+
+.fde-feature-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 40px;
+  overflow: hidden;
+  padding: 34px 42px;
+  border-radius: 22px;
+  color: #fff;
+  background: linear-gradient(115deg, #102e4a, #154a70 62%, #0b6e88);
+  box-shadow: 0 18px 36px -24px rgba(13, 48, 75, .8);
+}
+
+.fde-feature-copy {
+  max-width: 680px;
+}
+
+.fde-feature-kicker,
+.fde-series-number {
+  display: block;
+  font-size: .76rem;
+  font-weight: 800;
+  letter-spacing: .1em;
+}
+
+.fde-feature-kicker { color: #8ee1f2; }
+
+.fde-feature h2 {
+  margin: 8px 0 10px;
+  color: #fff;
+  font-size: clamp(1.45rem, 2.7vw, 2rem);
+  line-height: 1.25;
+}
+
+.fde-feature p {
+  margin: 0 0 18px;
+  color: #d5e8f2;
+  line-height: 1.7;
+}
+
+.fde-feature-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 18px;
+  border-radius: 9px;
+  background: #fff;
+  color: #123b5b;
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.fde-feature-link:hover { background: #e2f6fc; }
+
+.fde-feature-flow {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  flex-shrink: 0;
+  color: #cce9f3;
+  white-space: nowrap;
+}
+
+.fde-feature-flow span {
+  border: 1px solid rgba(202, 236, 248, .5);
+  border-radius: 8px;
+  padding: 9px 12px;
+  background: rgba(255, 255, 255, .08);
+  font-size: .8rem;
+}
+
+.fde-series-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+  margin: 28px 0;
+}
+
+.fde-series-page {
+  padding-top: 56px;
+  padding-bottom: 96px;
+}
+
+.fde-series-heading {
+  max-width: 820px;
+}
+
+.fde-series-eyebrow {
+  color: var(--color-primary);
+  font-size: .78rem;
+  font-weight: 800;
+  letter-spacing: .1em;
+}
+
+.fde-series-heading h1 {
+  margin: 12px 0 20px;
+  color: var(--text-main);
+  font-size: clamp(2rem, 4vw, 2.9rem);
+  line-height: 1.2;
+}
+
+.fde-series-heading p,
+.fde-series-outro {
+  margin: 0 0 14px;
+  color: var(--text-secondary);
+  font-size: 1rem;
+  line-height: 1.85;
+}
+
+.fde-series-item {
+  display: block;
+  padding: 26px;
+  border: 1px solid var(--border-light);
+  border-radius: 16px;
+  background: var(--bg-surface);
+  box-shadow: var(--shadow-card);
+  color: var(--text-main);
+  text-decoration: none !important;
+}
+
+.fde-series-item:hover {
+  border-color: var(--color-primary);
+  box-shadow: var(--shadow-hover);
+}
+
+.fde-series-number { color: var(--color-primary); }
+.fde-series-item h2 { margin: 12px 0; font-size: 1.25rem; }
+.fde-series-item p { color: var(--text-secondary); line-height: 1.7; }
+.fde-series-item-link { color: var(--color-primary); font-weight: 700; }
+
+@media (max-width: 960px) {
+  .fde-feature-card { flex-direction: column; align-items: flex-start; }
+}
+
+@media (max-width: 640px) {
+  .fde-feature-card { padding: 26px 22px; }
+  .fde-feature-flow { flex-wrap: wrap; white-space: normal; }
+  .fde-series-list { grid-template-columns: 1fr; }
+}
+
 /* ==========================================================================
    首页：Hero 指标 / 实验卡 / 研究方向
    ========================================================================== */

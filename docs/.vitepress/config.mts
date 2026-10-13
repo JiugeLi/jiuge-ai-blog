@@ -60,7 +60,7 @@ export default defineConfig({
         .filter(item => !item.url.includes('404'))
         .map((item) => {
           const path = `/${decodeURI(item.url).replace(/^\//, '')}`
-          const lastmod = byUrl.get(path) ?? tagDates.get(path) ?? (['/', '/posts/', '/tags/'].includes(path) ? latest(dated) : undefined)
+          const lastmod = byUrl.get(path) ?? tagDates.get(path) ?? (['/', '/posts/', '/tags/'].includes(path) ? latest(dated) : path === '/series/fde/' ? latest(dated.filter(post => post.tags.includes('FDE'))) : undefined)
           return lastmod ? { ...item, lastmod } : item
         })
     },
@@ -113,6 +113,7 @@ export default defineConfig({
     nav: [
       { text: '首页', link: '/' },
       { text: '文章', link: '/posts/', activeMatch: '^/posts/' },
+      { text: 'FDE小白书', link: '/series/fde/', activeMatch: '^/series/fde/' },
       { text: '标签', link: '/tags/', activeMatch: '^/tags/' },
       { text: '研究方向', link: '/#tracks-section' },
       { text: '关于', link: '/about' },
