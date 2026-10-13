@@ -1,6 +1,7 @@
 # Project Rules
 
 - `content/` is the content source of truth: `content/catalog.json` + `content/articles/*/index.md` (copied from the WPS 图文仓库) plus `content/harness/harness-engineering-wechat.md`.
+- `content/drafts/` holds review drafts and editable diagrams; the import/build pipeline does not publish them. Add an approved article to the importer deliberately before publication.
 - `scripts/import-articles.mjs` generates `docs/posts/<yyyy>/<mm>/<dd>/<slug>/index.md` (URL `/posts/<yyyy>/<mm>/<dd>/<slug>/`), tag pages `docs/tags/<slug>/index.md`, and copies referenced images to `docs/public/media/<folder>/assets/<file>`. Never edit generated posts or tag pages by hand; `docs/posts/index.md` (archive page) is hand-written and preserved.
 - The import script imports `docs/.vitepress/theme/tags.ts` directly (Node ≥ 22.18 type stripping). Every tag produced by `tagsFor()` must be registered there with an English slug, or the import fails.
 - Every article must declare an English `slug` (lowercase letters, digits, hyphens) in its frontmatter; the import fails otherwise. The date part comes from `publish_time`.

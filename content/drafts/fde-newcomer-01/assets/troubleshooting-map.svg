@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" role="img" aria-labelledby="title desc">
+  <title id="title">AI 请求故障定位图</title>
+  <desc id="desc">从浏览器现象出发，使用同一个 request_id 查应用、检索、网关和推理服务日志；每一层分别核对状态、命中、路由和资源。</desc>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="10" markerHeight="10" orient="auto"><path d="M0 0L10 5L0 10Z" fill="#467184"/></marker>
+    <style>
+      .bg{fill:#f5f8fa}.title{font:700 43px 'Microsoft YaHei','Noto Sans CJK SC',sans-serif;fill:#142b39}.sub{font:23px 'Microsoft YaHei','Noto Sans CJK SC',sans-serif;fill:#546b78}.head{font:700 27px 'Microsoft YaHei','Noto Sans CJK SC',sans-serif;fill:#193544}.body{font:22px 'Microsoft YaHei','Noto Sans CJK SC',sans-serif;fill:#42606c}.tag{font:700 19px 'Microsoft YaHei','Noto Sans CJK SC',sans-serif;fill:#23677b}.line{stroke:#467184;stroke-width:4;fill:none;marker-end:url(#arrow)}
+    </style>
+  </defs>
+  <rect class="bg" width="1600" height="900"/>
+  <text class="title" x="77" y="82">页面报错，先查哪一层？</text>
+  <text class="sub" x="77" y="126">用同一个 request_id 串起日志；看请求最后到达了哪里</text>
+
+  <rect x="74" y="188" width="292" height="148" rx="20" fill="#e4f3f6" stroke="#9ac8d2" stroke-width="2"/>
+  <text class="head" x="105" y="236">浏览器现象</text><text class="body" x="105" y="277">状态码、耗时</text><text class="body" x="105" y="309">请求编号</text>
+
+  <rect x="440" y="188" width="292" height="148" rx="20" fill="#e8f0fa" stroke="#a9c1df" stroke-width="2"/>
+  <text class="head" x="471" y="236">应用服务</text><text class="body" x="471" y="277">身份、权限</text><text class="body" x="471" y="309">请求是否进入</text>
+
+  <rect x="806" y="188" width="292" height="148" rx="20" fill="#e5f6ee" stroke="#9acfb4" stroke-width="2"/>
+  <text class="head" x="837" y="236">知识检索</text><text class="body" x="837" y="277">命中、来源</text><text class="body" x="837" y="309">资料版本与权限</text>
+
+  <rect x="1172" y="188" width="355" height="148" rx="20" fill="#fff2df" stroke="#e6c692" stroke-width="2"/>
+  <text class="head" x="1203" y="236">网关与推理</text><text class="body" x="1203" y="277">路由、限流、超时</text><text class="body" x="1203" y="309">模型进程与资源</text>
+
+  <path class="line" d="M369 262H427"/><path class="line" d="M735 262H793"/><path class="line" d="M1101 262H1159"/>
+  <text class="tag" x="80" y="390">常见现象</text><text class="tag" x="657" y="390">先看什么证据</text><text class="tag" x="1249" y="390">可能所在层</text>
+
+  <g>
+    <rect x="75" y="412" width="1450" height="78" rx="16" fill="#fff" stroke="#d5e2e8"/>
+    <text class="body" x="103" y="460">401 / 403：请求被拒绝</text><text class="body" x="658" y="460">登录态、Key、资源权限</text><text class="tag" x="1252" y="460">应用 / 网关</text>
+    <rect x="75" y="502" width="1450" height="78" rx="16" fill="#fff" stroke="#d5e2e8"/>
+    <text class="body" x="103" y="550">429：请求过多</text><text class="body" x="658" y="550">响应头、限流规则、并发数</text><text class="tag" x="1252" y="550">应用 / 网关 / 上游</text>
+    <rect x="75" y="592" width="1450" height="78" rx="16" fill="#fff" stroke="#d5e2e8"/>
+    <text class="body" x="103" y="640">慢或超时</text><text class="body" x="658" y="640">逐层耗时、最后一条日志</text><text class="tag" x="1252" y="640">按耗时定位</text>
+    <rect x="75" y="682" width="1450" height="78" rx="16" fill="#fff" stroke="#d5e2e8"/>
+    <text class="body" x="103" y="730">回答流畅，但引用错误</text><text class="body" x="658" y="730">命中片段、资料版本、引用组装</text><text class="tag" x="1252" y="730">检索 / 应用</text>
+  </g>
+  <text class="sub" x="80" y="833">状态码只是线索；最终以该请求在各层的日志和复测结果为准。</text>
+</svg>

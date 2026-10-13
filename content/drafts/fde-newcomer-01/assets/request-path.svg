@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" role="img" aria-labelledby="title desc">
+  <title id="title">企业 AI 助手的一次请求经过哪些系统</title>
+  <desc id="desc">主链路从浏览器到应用服务、模型网关、推理服务；需要企业资料时，应用服务先访问知识检索；回答带着请求编号沿原路返回。</desc>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="10" markerHeight="10" orient="auto-start-reverse"><path d="M0 0L10 5L0 10Z" fill="#3a6b82"/></marker>
+    <style>
+      .bg{fill:#f5f8fa}.title{font:700 44px 'Microsoft YaHei','Noto Sans CJK SC',sans-serif;fill:#142b39}.sub{font:24px 'Microsoft YaHei','Noto Sans CJK SC',sans-serif;fill:#526775}.head{font:700 30px 'Microsoft YaHei','Noto Sans CJK SC',sans-serif;fill:#142b39}.body{font:23px 'Microsoft YaHei','Noto Sans CJK SC',sans-serif;fill:#425b69}.small{font:21px 'Microsoft YaHei','Noto Sans CJK SC',sans-serif;fill:#315369}.num{font:700 22px 'Microsoft YaHei','Noto Sans CJK SC',sans-serif;fill:#fff}.pill{font:700 20px 'Microsoft YaHei','Noto Sans CJK SC',sans-serif;fill:#176e7e}.line{stroke:#3a6b82;stroke-width:5;fill:none;marker-end:url(#arrow)}
+    </style>
+  </defs>
+  <rect class="bg" width="1600" height="900"/>
+  <text class="title" x="80" y="86">一个 AI 请求到底经过哪些系统？</text>
+  <text class="sub" x="80" y="132">企业维修助手示例 · 主链路与 RAG 检索支路</text>
+
+  <rect x="68" y="218" width="300" height="236" rx="24" fill="#e4f3f6" stroke="#9ac8d2" stroke-width="2"/>
+  <circle cx="110" cy="255" r="23" fill="#177d92"/><text class="num" x="103" y="263">1</text>
+  <text class="head" x="98" y="315">浏览器</text><text class="body" x="98" y="360">输入问题</text><text class="body" x="98" y="396">携带登录状态</text>
+
+  <rect x="457" y="218" width="300" height="236" rx="24" fill="#e8f0fa" stroke="#a9c1df" stroke-width="2"/>
+  <circle cx="499" cy="255" r="23" fill="#3267a0"/><text class="num" x="492" y="263">2</text>
+  <text class="head" x="487" y="315">应用服务</text><text class="body" x="487" y="360">校验身份与权限</text><text class="body" x="487" y="396">组织问题和资料</text>
+
+  <rect x="846" y="218" width="300" height="236" rx="24" fill="#fff2df" stroke="#e6c692" stroke-width="2"/>
+  <circle cx="888" cy="255" r="23" fill="#ba7930"/><text class="num" x="881" y="263">4</text>
+  <text class="head" x="876" y="315">模型网关</text><text class="body" x="876" y="360">鉴权、路由、限流</text><text class="body" x="876" y="396">记录调用与耗时</text>
+
+  <rect x="1235" y="218" width="300" height="236" rx="24" fill="#ede9f8" stroke="#beafdd" stroke-width="2"/>
+  <circle cx="1277" cy="255" r="23" fill="#7356a6"/><text class="num" x="1270" y="263">5</text>
+  <text class="head" x="1265" y="315">推理服务</text><text class="body" x="1265" y="360">加载模型</text><text class="body" x="1265" y="396">生成回答</text>
+
+  <path class="line" d="M370 332H444"/><path class="line" d="M759 332H833"/><path class="line" d="M1148 332H1222"/>
+  <text class="small" x="380" y="304">问题</text><text class="small" x="770" y="304">请求</text><text class="small" x="1159" y="304">转发</text>
+
+  <rect x="456" y="543" width="689" height="167" rx="24" fill="#e5f6ee" stroke="#9acfb4" stroke-width="2"/>
+  <circle cx="499" cy="583" r="23" fill="#2b8a61"/><text class="num" x="492" y="591">3</text>
+  <text class="head" x="541" y="593">知识检索（问题需要企业资料时）</text>
+  <text class="body" x="491" y="645">查询索引 → 返回有权限的资料片段与来源</text>
+  <path class="line" d="M577 456V530"/>
+  <path class="line" d="M693 541V467"/>
+
+  <path d="M1380 466V785H218V466" stroke="#3a6b82" stroke-width="5" fill="none" marker-end="url(#arrow)"/>
+  <rect x="432" y="744" width="745" height="73" rx="36" fill="#fff" stroke="#bed1db" stroke-width="2"/>
+  <text class="pill" x="470" y="789">回答沿原路返回 · 同一个 request_id 贯穿全程</text>
+  <text class="small" x="82" y="857">阅读重点：网关返回 200 ≠ 检索正确 ≠ 最终回答正确</text>
+</svg>
