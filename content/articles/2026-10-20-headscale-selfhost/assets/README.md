@@ -6,6 +6,11 @@
 - Requested size was 1536 x 1024 for both; provider returned the dimensions above. Preserved original aspect ratios, visually checked Chinese labels and arrows, exported WebP using sharp with metadata stripped.
 - Only generic labels were used. No production domains, device addresses, usernames, identifiers or credentials were included in generation prompts.
 
+## Peer connection explanation
+
+- peer-connection.webp: generated through SoloAPI CLI with gpt-image-2.5. Diagram specification: Headscale exchanges public keys and endpoint information with A/B; clients attempt UDP hole punching and WireGuard direct communication; a separate DERP path carries encrypted packets when direct communication is unavailable. Relay may be used first while clients keep trying direct paths.
+- This is a conceptual diagram, not a packet trace. No production values or credentials were included. Preserve the returned aspect ratio and inspect labels/arrows before publication.
+
 ## Actual deployment screenshot
 
 - headplane-redacted.webp: real Headplane Machines page, captured 2026-10-20 with eight Connected devices. Not AI-generated.
