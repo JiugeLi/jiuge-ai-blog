@@ -169,7 +169,7 @@ npm run cf:deploy  # 部署到 Cloudflare Pages（需先 npx wrangler login）
 
 | 日期 | 文章 | 标签 | 阅读 |
 | --- | --- | --- | --- |
-| 10‑20 | [让电脑和服务器像在同一个局域网里一样通信：Headscale 自建实录](https://jiuge.ai/posts/2026/10/20/headscale-self-hosted-network/) | AI · 互联网 · 职场 | 14&nbsp;min |
+| 10‑20 | [让电脑和服务器像在同一个局域网里一样通信：Headscale 自建实录](https://jiuge.ai/posts/2026/10/20/headscale-self-hosted-network/) | AI · 互联网 | 9&nbsp;min |
 | 10‑13 | [FDE前线部署工程师小白书 02：一个 AI 请求到底经过了哪些系统](https://jiuge.ai/posts/2026/10/13/fde-request-path/) | FDE · AI | 10&nbsp;min |
 | 10‑13 | [FDE前线部署工程师小白书 01：FDE 到底是什么](https://jiuge.ai/posts/2026/10/13/what-is-fde/) | FDE · AI | 9&nbsp;min |
 | 07‑11 | [AI 写代码还不够！Harness Engineering，才是智能体真正落地的关键](https://jiuge.ai/posts/2026/07/11/harness-engineering/) | AI · 智能体 · 编程 | 15&nbsp;min |

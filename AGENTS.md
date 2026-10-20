@@ -1,5 +1,7 @@
 # Project Rules
 
+- Hands-on blog prose should follow the user's direct explanation: what the tool does, the actual problem, then the fix and commands. Keep operational acceptance details in project records; avoid making the public article read like an audit report or repeating caveats after every step.
+
 - Public infrastructure writeups must replace private control domains, public/internal machine addresses, account names, hostnames and local credential paths with examples. Do not publish live admin screenshots or deployment configs verbatim. Distinguish SSH login, RDP handshake, desktop login, direct/DERP state and measured throughput; none proves the others.
 - When publishing real admin screenshots, mask sensitive text/address areas with opaque blocks at capture time, exclude browser chrome and session state, strip metadata, and visually inspect the final exported image. Text can be a direct table-cell child: masking only buttons/spans may leave an IP visible.
 
