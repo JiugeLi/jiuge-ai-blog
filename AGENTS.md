@@ -13,6 +13,7 @@
 - Every article must declare an English `slug` (lowercase letters, digits, hyphens) in its frontmatter; the import fails otherwise. The date part comes from `publish_time`.
 - The import also writes `docs/public/_redirects`: 301s from the old Nuxt URLs `/posts/<title-slug>-<id8>(/)` to the new URLs. Keep the legacy slug formula so these redirects stay valid.
 - Published article URLs and `/media/<key>` URLs must stay stable. If a slug or date ever changes, add a redirect from the old URL.
+- The importer derives each article's cover from its first local Markdown image. Put the intended cover first in the source article to update the generated cover and Open Graph image; preserve explanatory diagrams in their original sections.
 - Many exported `digest` values are machine-truncated ("title + 大家好，我是九歌 + body", 100 chars). `describe()` in the import script detects these and rebuilds the description from body prose. For image-only or very short articles, write a real `digest` in the source frontmatter.
 - The site is VitePress (`docs/`), statically built and deployed to Cloudflare Pages. No D1, R2, or Pages Functions are used. Brand name is「九歌 AI 实验室」(`alternateName`: 九歌 AI 大模型).
 - SEO lives in `docs/.vitepress/seo.ts` (canonical, Open Graph/Twitter, robots, JSON-LD `@graph` with WebSite/Person/BlogPosting/BreadcrumbList/CollectionPage/ProfilePage). Pages without a cover use `docs/public/og-default.jpg` (1200×630).
