@@ -643,10 +643,10 @@
   },
   {
     "articleId": "local-headscale-selfhost",
-    "title": "用 Headscale 自建远程组网：装好服务以后，真正的坑才开始",
+    "title": "让电脑和服务器像在同一个局域网里一样通信：Headscale 自建实录",
     "author": "九歌",
     "publishTime": 1792425600,
     "markdownPath": "articles/2026-10-20-headscale-selfhost/index.md",
-    "imageCount": 2
+    "imageCount": 3
   }
 ]

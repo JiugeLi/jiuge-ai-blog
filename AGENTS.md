@@ -1,6 +1,7 @@
 # Project Rules
 
 - Public infrastructure writeups must replace private control domains, public/internal machine addresses, account names, hostnames and local credential paths with examples. Do not publish live admin screenshots or deployment configs verbatim. Distinguish SSH login, RDP handshake, desktop login, direct/DERP state and measured throughput; none proves the others.
+- When publishing real admin screenshots, mask sensitive text/address areas with opaque blocks at capture time, exclude browser chrome and session state, strip metadata, and visually inspect the final exported image. Text can be a direct table-cell child: masking only buttons/spans may leave an IP visible.
 
 - `content/` is the content source of truth: `content/catalog.json` + `content/articles/*/index.md` (copied from the WPS 图文仓库), `content/harness/harness-engineering-wechat.md`, and the FDE articles listed in `content/fde/manifest.json`.
 - `content/drafts/` holds review drafts and editable diagrams; the import/build pipeline does not publish them. Add an approved article to the importer deliberately before publication.
