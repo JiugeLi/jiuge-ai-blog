@@ -1,5 +1,7 @@
 # Project Rules
 
+- Public infrastructure writeups must replace private control domains, public/internal machine addresses, account names, hostnames and local credential paths with examples. Do not publish live admin screenshots or deployment configs verbatim. Distinguish SSH login, RDP handshake, desktop login, direct/DERP state and measured throughput; none proves the others.
+
 - `content/` is the content source of truth: `content/catalog.json` + `content/articles/*/index.md` (copied from the WPS 图文仓库), `content/harness/harness-engineering-wechat.md`, and the FDE articles listed in `content/fde/manifest.json`.
 - `content/drafts/` holds review drafts and editable diagrams; the import/build pipeline does not publish them. Add an approved article to the importer deliberately before publication.
 - FDE series source files live in `content/fde/<slug>/index.md`; the manifest controls import order. The hand-written `/series/fde/` landing page uses `FdeSeriesPage.vue`, and the homepage Banner links there. Keep both series entry points updated when adding articles.

@@ -640,5 +640,13 @@
     "markdownPath": "articles/dify-搭建私有数据可视化智能体-效果直逼-chatgpt-puvid49y/index.md",
     "htmlPath": "articles/dify-搭建私有数据可视化智能体-效果直逼-chatgpt-puvid49y/article.html",
     "imageCount": 16
+  },
+  {
+    "articleId": "local-headscale-selfhost",
+    "title": "用 Headscale 自建远程组网：装好服务以后，真正的坑才开始",
+    "author": "九歌",
+    "publishTime": 1792425600,
+    "markdownPath": "articles/2026-10-20-headscale-selfhost/index.md",
+    "imageCount": 2
   }
 ]
